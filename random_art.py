@@ -9,22 +9,16 @@ from statistics import mean
 FORMULA = ""
 
 def random_sin(n):
-    # if random.random() < 0.5:
-    #     return sin(pi * n) * random.random()
-    # else:
     return sin(pi * n)
 
 def random_cos(n):
-    # if random.random() < 0.5:
-    #     return cos(pi * n) * random.random()
-    # else:
     return cos(pi * n)
 
 def random_mod_pi(n):
-    # if random.random() < 0.5:
-    #     return (n % pi) * random.random()
-    # else:
     return (n % pi)/10
+
+def average(x,y):
+    return mean([x,y])
 
 def random_log(n):
     """ returns log of n or a random number, if n == 0 """
@@ -32,12 +26,12 @@ def random_log(n):
 
 def random_axis(x,y):
     """ Returns an axis or a combination of axes. """
-    axis_choice = random.randint(1,8)
-    if axis_choice == 1:
+    axis_choice = random.randint(0,100)
+    if axis_choice <= 40:
         return x
-    elif axis_choice == 2:
+    elif axis_choice <= 80:
         return y
-    elif axis_choice == 3:
+    elif axis_choice <= 90:
         return x + y
     else:
         return x*y
@@ -58,38 +52,38 @@ def random_operator(axis):
 def random_function(x,y):
     """ Creates a random base function from a variety of operators and how
     they are combined. """
-    formula_choice = random.randint(4,4)
-    if formula_choice == 1:
-        return random_operator(x) + random_operator(y)
-    elif formula_choice == 2:
-        return random_operator(x) - random_operator(y)
-    elif formula_choice == 3:
-        return random_operator(x) * random_operator(y)
+    formula_choice = random.randint(0,100)
+    if formula_choice <= 35:
+        return random_operator(x)
+    elif formula_choice <= 70:
+        return random_operator(y)
+    elif formula_choice <= 85:
+        return average(random_operator(x),random_operator(y))
     else:
-        return random_operator(x * y)
+        return random_operator(x)*random_operator(y)
 
 def add_to_expression(expr):
     """ Randomly generates larger expressions from the given expression. """
 
-    random_operator = random.randint(0,8)
-    if random_operator == 0:
+    random_operator = random.randint(0,100)
+    if random_operator <= 15:
         new_expr = lambda x, y: (expr(x,y) * random_sin(random_axis(x,y)))
-    elif random_operator == 1:
+    elif random_operator <= 30:
         new_expr = lambda x, y: (expr(x,y) * random_cos(random_axis(x,y)))
-    elif random_operator == 2:
+    elif random_operator <= 35:
         new_expr = lambda x, y: (expr(x,y) * random_mod_pi(random_axis(x,y)))
-    elif random_operator == 3:
+    elif random_operator <= 40:
         new_expr = lambda x, y: (expr(x,y) * random_log(random_axis(x,y)))
-    elif random_operator == 4:
+    elif random_operator <= 60:
         new_expr = lambda x,y: random_sin(expr(x,y))
-    elif random_operator == 5:
+    elif random_operator <= 80:
         new_expr = lambda x,y: random_cos(expr(x,y))
-    elif random_operator == 6:
+    elif random_operator <= 85:
         new_expr = lambda x,y: random_mod_pi(expr(x,y))
-    elif random_operator == 7:
+    elif random_operator <= 90:
         new_expr = lambda x,y: random_log(expr(x,y))
     else:
-        new_expr = lambda x, y: (expr(x,y) + expr(y,x))
+        new_expr = lambda x, y: (expr(x,y) + expr(y,x)/2)
     return new_expr
 
 
